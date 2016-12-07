@@ -13,6 +13,10 @@ import interfaces.Visitor;
  */
 public class Enemy extends GameObject {
 
+    public Enemy(int x, int y) {
+        super(x, y);
+    }
+
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);

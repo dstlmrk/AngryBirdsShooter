@@ -52,33 +52,54 @@ public class GraphicsDrawer implements Visitor {
 
     @Override
     public void visit(Cannon cannon) {
-        graphics.drawImage(cannonImage, 
-              cannon.getX() - cannonImage.getWidth()/2, 
-              cannon.getY() - cannonImage.getHeight()/2, null);
+        graphics.drawImage(
+            cannonImage, 
+            cannon.getX() - cannonImage.getWidth()/2, 
+            cannon.getY() - cannonImage.getHeight()/2,
+            null
+        );
     }
 
     @Override
     public void visit(Missile missile) {
-        graphics.drawImage(missileImage, 
-              missile.getX() - missileImage.getWidth()/2, 
-              missile.getY() - missileImage.getHeight()/2, null);
+        graphics.drawImage(
+            missileImage, 
+            missile.getX() - missileImage.getWidth()/2, 
+            missile.getY() - missileImage.getHeight()/2,
+            null
+        );
     }
 
     @Override
     public void visit(Enemy enemy) {
-//        muze byt?
-//        BufferedImage chosenEnemyImage = enemy.getType() == 0 ? enemyImage1 : enemyImage2;
+//        BufferedImage enemyImage = enemy.getType() == 0 ? enemyImage1 : enemyImage2;
+//        graphics.drawImage(
+//            enemyImage,
+//            enemy.getX(),
+//            enemy.getY(),
+//            null
+//        );
+
 
     }
 
     @Override
     public void visit(Collision collision) {
-
+//        graphics.drawImage(
+//            collisionImage,
+//            collision.getX(),
+//            collision.getY(),
+//            null
+//        );
     }
 
     @Override
     public void visit(GameStats gameStats) {
-
+//        graphics.drawString(
+//            gameStats.toString(),
+//            gameStats.getX(),
+//            gameStats.getY()
+//        );
     }
     
     //    public void drawInfo(Graphics g, ModelInfo info) {

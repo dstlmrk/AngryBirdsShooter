@@ -39,7 +39,6 @@ public class MainWindow extends JFrame {
                 public void keyPressed(KeyEvent evt) {
                     controller.keyPressed(evt);
                     System.out.println("key pressed: " + evt.getKeyChar());
-//                    view.update();
                 }
             });
 

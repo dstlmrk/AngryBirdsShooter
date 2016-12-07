@@ -14,8 +14,7 @@ import interfaces.Visitor;
 public class Cannon extends GameObject {
 
     public Cannon() {
-        x = 50;
-        y = 150;
+        super(50, 150);
     }
 
     @Override

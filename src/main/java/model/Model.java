@@ -40,12 +40,12 @@ public class Model implements Observable {
     }
    
     public void moveCannonUp() {
-        cannon.setY(cannon.getY() - 5);
+        cannon.setY(cannon.getY() - 10);
         notifyObservers();
     }
 
     public void moveCannonDown() {
-        cannon.setY(cannon.getY() + 5);
+        cannon.setY(cannon.getY() + 10);
         notifyObservers();
     }
     

@@ -1,7 +1,6 @@
 package view;
 
 import interfaces.Observer;
-import model.Cannon;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -15,6 +14,7 @@ import model.Model;
  * @author Ondrej Stuchlik
  */
 public class Canvas extends JPanel implements Observer { 
+    
     GraphicsDrawer drawer = new GraphicsDrawer();
     Model model;
 

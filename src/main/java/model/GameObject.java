@@ -7,6 +7,11 @@ import interfaces.Visitor;
 public abstract class GameObject implements Visitable {
     
     protected int x, y;
+    
+    public GameObject(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
 
     public int getX() {
         return x;

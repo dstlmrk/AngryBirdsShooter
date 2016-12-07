@@ -13,6 +13,10 @@ import interfaces.Visitor;
  */
 public class GameStats extends GameObject {
 
+    public GameStats(int x, int y) {
+        super(x, y);
+    }
+
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
