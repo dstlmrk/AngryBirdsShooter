@@ -25,24 +25,33 @@ public class Canvas extends JPanel implements Observer {
         this.setPreferredSize(new Dimension(width,height));
         this.setVisible(true);
         this.model = model;
+        // tento objekt bude observerem, sleduje model a jeho zmeny        
         this.model.addObserver(this);
     }
     
     @Override
     public void update() {
         repaint();
+        // nelaguje se obrazovka
         Toolkit.getDefaultToolkit().sync();
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        drawer.drawCannon(g, model.getCannon());
+        drawer.setGraphics(g);
+        drawer.visit(model.getCannon());
         for (Missile missile: model.getMissiles()) {
-            drawer.drawMissile(g, missile);
+            drawer.visit(missile);
         }
+        
+        //    Jak by to mozna mohlo vypadat?
+        //    for (GameObject go : model.getAllGameObjects()) {
+        //        go.accept(drawer);
+        //    }
+        
 //        drawer.drawCannon(g, new Cannon());
 //        drawer.drawMissile(g, new Missile());
     }
-    
+
 }

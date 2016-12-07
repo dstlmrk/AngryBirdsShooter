@@ -5,7 +5,7 @@ import javax.swing.SwingUtilities;
 
 /**
  *
- * @author stue
+ * @author Marek Dostal
  */
 public class Shooter {
     

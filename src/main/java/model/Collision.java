@@ -5,10 +5,17 @@
  */
 package model;
 
+import interfaces.Visitor;
+
 /**
  *
  * @author marek
  */
 public class Collision extends GameObject {
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
     
 }

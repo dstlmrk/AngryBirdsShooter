@@ -1,15 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
-/**
- *
- * @author marek
- */
-public class GameObject {
+import interfaces.Visitable;
+import interfaces.Visitor;
+
+
+public abstract class GameObject implements Visitable {
     
     protected int x, y;
 
@@ -28,6 +23,8 @@ public class GameObject {
     public void setY(int y) {
         this.y = y;
     }
-    
+
+    @Override
+    public abstract void accept(Visitor visitor);
     
 }

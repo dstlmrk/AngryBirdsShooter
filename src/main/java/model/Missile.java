@@ -5,6 +5,8 @@
  */
 package model;
 
+import interfaces.Visitor;
+
 /**
  *
  * @author marek
@@ -19,6 +21,11 @@ public class Missile extends GameObject {
     public void move() {
         x += 5;
         y += 0;
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
     
 }

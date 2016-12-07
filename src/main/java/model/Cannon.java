@@ -5,6 +5,8 @@
  */
 package model;
 
+import interfaces.Visitor;
+
 /**
  *
  * @author marek
@@ -14,6 +16,11 @@ public class Cannon extends GameObject {
     public Cannon() {
         x = 50;
         y = 150;
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
     
 }

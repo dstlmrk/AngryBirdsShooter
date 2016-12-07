@@ -50,7 +50,6 @@ public class Model implements Observable {
     }
     
     public void shootMissile() {
-       
         missiles.add(new Missile(cannon.x, cannon.y));
         notifyObservers();
     }
@@ -63,33 +62,33 @@ public class Model implements Observable {
                 moveObjects();
             }   
         }, 0, 10);
-    }
-
-    
-    private void moveObjects() {
-        System.out.println("STRILIM");
-        //TODO: projet vsechny game objects a zavolat move()
-        for (Missile missile : missiles) {
-            missile.move();
-        }
-        notifyObservers();
-    }
+        timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                        addNewEnemy();
+                }
+        }, 0, 5000);
         
-//        timer.schedule(new TimerTask() {
-//                @Override
-//                public void run() {
-//                        addNewEnemy();
-//                }
-//        }, 0, 5000);
-
 //        timer.schedule(new TimerTask() {
 //                @Override
 //                public void run() {
 //                        timeTicks++;
 //                }
 //        }, 0, 1000);
-//    }
+    }
 
+    private void moveObjects() {
+        //TODO: projet vsechny game objects a zavolat move()
+        for (Missile missile : missiles) {
+            missile.move();
+        }
+        notifyObservers();
+    }
+    
+    private void addNewEnemy() {
+//        TODO: vytvorit noveho nepritele
+    }
+     
     @Override
     public void addObserver(Observer observer) {
         observers.add(observer);
