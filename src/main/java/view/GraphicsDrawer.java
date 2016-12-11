@@ -72,15 +72,14 @@ public class GraphicsDrawer implements Visitor {
 
     @Override
     public void visit(Enemy enemy) {
-//        BufferedImage enemyImage = enemy.getType() == 0 ? enemyImage1 : enemyImage2;
-//        graphics.drawImage(
-//            enemyImage,
-//            enemy.getX(),
-//            enemy.getY(),
-//            null
-//        );
-
-
+        int type = enemy.getType();
+        BufferedImage enemyImage;
+        if (type == 0) {
+            enemyImage = enemyImage1;
+        } else {
+            enemyImage = enemyImage2;
+        }
+        graphics.drawImage(enemyImage, enemy.getX(), enemy.getY(), null);
     }
 
     @Override

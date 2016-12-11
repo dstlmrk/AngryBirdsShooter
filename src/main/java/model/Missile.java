@@ -7,7 +7,11 @@ package model;
 
 import interfaces.MovementStrategy;
 import interfaces.Visitor;
+import java.io.FileInputStream;
+import java.io.IOException;
 import model.movement.Simple;
+
+
 
 /**
  *
@@ -18,14 +22,14 @@ public class Missile extends GameObject {
     private MovementStrategy movementStrategy;
     private int initX, initY, angle, force, time = 1;
     
-    public Missile(int x, int y) {
+    public Missile(int x, int y, int angle, int force) {
         super(x, y);
         this.initX = x;
         this.initY = y;
-        this.angle = 20; //angle;
-	this.force = 50; //force;
+        this.angle = angle;
+	this.force = force;
         movementStrategy = new Simple();
-
+//        movementStrategy = new Realistic();
     }
     
     public int getInitX() {

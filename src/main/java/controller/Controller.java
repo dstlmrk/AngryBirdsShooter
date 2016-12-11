@@ -38,10 +38,10 @@ public class Controller {
 			case KeyEvent.VK_SPACE:
 				model.shootMissile();
 				break;
-//			case KeyEvent.VK_Q:
-//				System.out.println("TEST 2");
-//				model.changeShootingMode();
-//				break;
+			case KeyEvent.VK_Q:
+				System.out.println("zmena shooting modu");
+				model.changeShootingMode();
+				break;
 //			case KeyEvent.VK_G:
 //				model.gravityUp();
 //				break;

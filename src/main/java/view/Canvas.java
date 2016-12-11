@@ -6,7 +6,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import javax.swing.JPanel;
-import model.Missile;
+import model.GameObject;
 import model.Model;
 
 /**
@@ -22,7 +22,7 @@ public class Canvas extends JPanel implements Observer {
         this.setBackground(Color.WHITE);
         this.setDoubleBuffered(true);
         this.setLocation(x, y);
-        this.setPreferredSize(new Dimension(width,height));
+        this.setPreferredSize(new Dimension(width, height));
         this.setVisible(true);
         this.model = model;
         // tento objekt bude observerem, sleduje model a jeho zmeny        
@@ -39,19 +39,10 @@ public class Canvas extends JPanel implements Observer {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        drawer.setGraphics(g);
-        drawer.visit(model.getCannon());
-        for (Missile missile: model.getMissiles()) {
-            drawer.visit(missile);
+        drawer.setGraphics(g); 
+        for (GameObject gameObject : model.getGameObjects()) {
+            gameObject.accept(drawer);
         }
-        
-        //    Jak by to mozna mohlo vypadat?
-        //    for (GameObject go : model.getAllGameObjects()) {
-        //        go.accept(drawer);
-        //    }
-        
-//        drawer.drawCannon(g, new Cannon());
-//        drawer.drawMissile(g, new Missile());
     }
 
 }

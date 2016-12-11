@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import interfaces.Observer;
+import cz.fit.dpo.mvcshooter.Config;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -21,14 +22,28 @@ public class Model implements Observable {
     
     private Cannon cannon;
     private List<Missile> missiles;
+    private List<Enemy> enemies;
     private Timer timer;
     private List<Observer> observers;
+    Config config;
     
     public Model() {
         cannon = new Cannon();
         missiles = new ArrayList<Missile>();
+        enemies = new ArrayList<Enemy>();
         observers = new ArrayList<Observer>();
+        config = Config.getInstance();
         initTimer();
+    }
+    
+    public List<GameObject> getGameObjects() {
+        List<GameObject> gameObjects = new ArrayList<GameObject>();
+        gameObjects.add(cannon);
+//        gameObjects.addAll(getCollisions());
+        gameObjects.addAll(missiles);
+        gameObjects.addAll(enemies);
+//        gameObjects.add(getGameStats());
+        return gameObjects;
     }
 
     public Cannon getCannon() {
@@ -50,8 +65,10 @@ public class Model implements Observable {
     }
     
     public void shootMissile() {
-        missiles.add(new Missile(cannon.x, cannon.y));
-        notifyObservers();
+        // TODO: posilat dat factory        
+        ArrayList<Missile> newMissiles = cannon.shoot();
+	missiles.addAll(newMissiles);
+	notifyObservers();
     }
     
     private void initTimer() {
@@ -67,7 +84,7 @@ public class Model implements Observable {
                 public void run() {
                         addNewEnemy();
                 }
-        }, 0, 5000);
+        }, 0, config.getIntProperty("enemies.exploring"));
         
 //        timer.schedule(new TimerTask() {
 //                @Override
@@ -86,7 +103,17 @@ public class Model implements Observable {
     }
     
     private void addNewEnemy() {
-//        TODO: vytvorit noveho nepritele
+        if (enemies.size() == config.getIntProperty("enemies.count")) {
+            return;
+        }
+//      TODO: prepsat, prvni stovka je tam proto, aby nedoslo ke generovani u praku
+        int randomX = (int) (Math.random() * (config.getIntProperty("canvas.width") - 100)) + 100;
+	int randomY = (int) (Math.random() * config.getIntProperty("canvas.height"));
+        // Vytvareni nepritele na zaklade vzoru AbstractFactory
+//        Enemy enemy = factory.createEnemy(randomX, randomY);
+        Enemy enemy = new Enemy(randomX, randomY);
+        enemies.add(enemy);
+        notifyObservers();
     }
      
     @Override
@@ -105,4 +132,10 @@ public class Model implements Observable {
             observer.update();
         }
     }
+
+    public void changeShootingMode() {
+        // zmeni vnitrni stav cannonu
+        cannon.changeShootingMode();
+    }
+    
 }
