@@ -28,11 +28,14 @@ public class Model implements Observable {
     Config config;
     
     public Model() {
-        cannon = new Cannon();
+        config = Config.getInstance();
+        cannon = new Cannon(
+                config.getIntProperty("canonn.x_default"),
+                config.getIntProperty("cannon.y_default")
+        );
         missiles = new ArrayList<Missile>();
         enemies = new ArrayList<Enemy>();
         observers = new ArrayList<Observer>();
-        config = Config.getInstance();
         initTimer();
     }
     
@@ -55,14 +58,38 @@ public class Model implements Observable {
     }
    
     public void moveCannonUp() {
-        cannon.setY(cannon.getY() - 10);
+        cannon.moveUp();
         notifyObservers();
     }
 
     public void moveCannonDown() {
-        cannon.setY(cannon.getY() + 10);
+        cannon.moveDown();
         notifyObservers();
     }
+    
+    public void angleUp() {
+        cannon.angleUp();
+    }
+    
+    public void angleDown() {
+        cannon.angleDown();
+    }
+    
+    public void forceUp() {
+        cannon.forceUp();
+    }
+    
+    public void forceDown() {
+        cannon.forceDown();
+    }
+
+//    public void gravityUp() {
+//        gravity += ModelConfig.GRAVITY_STEP;
+//    }
+//
+//    public void gravityDown() {
+//        gravity -= ModelConfig.GRAVITY_STEP;
+//    }
     
     public void shootMissile() {
         // TODO: posilat dat factory        

@@ -21,7 +21,6 @@ public class Controller {
 	}
 
 	public void keyPressed(KeyEvent evt) {
-		System.out.println("TEST");
 		switch (evt.getKeyCode()) {
 			case KeyEvent.VK_DOWN:
 				model.moveCannonDown();
@@ -29,12 +28,12 @@ public class Controller {
 			case KeyEvent.VK_UP:
 				model.moveCannonUp();
 				break;
-//			case KeyEvent.VK_LEFT:
-//				model.angleUp();
-//				break;
-//			case KeyEvent.VK_RIGHT:
-//				model.angleDown();
-//				break;
+			case KeyEvent.VK_LEFT:
+				model.angleUp();
+				break;
+			case KeyEvent.VK_RIGHT:
+				model.angleDown();
+				break;
 			case KeyEvent.VK_SPACE:
 				model.shootMissile();
 				break;
@@ -57,15 +56,15 @@ public class Controller {
 //			case KeyEvent.VK_F6:
 //				caretaker.restoreState(model);
 //				break;
-//			default:
-//				if ('+' == evt.getKeyChar()) {
-//					model.forceUp();
-//					break;
-//				} else if ('-' == evt.getKeyChar()) {
-//					model.forceDown();
-//					break;
-//				}
-//				break;
+			default:
+				if ('+' == evt.getKeyChar()) {
+					model.forceUp();
+					break;
+				} else if ('-' == evt.getKeyChar()) {
+					model.forceDown();
+					break;
+				}
+				break;
 		}
 	}
 

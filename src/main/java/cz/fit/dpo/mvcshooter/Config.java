@@ -48,10 +48,11 @@ public class Config {
      }
     
     public String getProperty(String key) {
-        return prop.getProperty(key);
+        return prop.getProperty(key).trim();
     }
     
     public int getIntProperty(String key) {
+        System.out.println(key + ":" + getProperty(key));
         return Integer.parseInt(getProperty(key));
     }
 }

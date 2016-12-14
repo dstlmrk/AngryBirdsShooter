@@ -54,6 +54,7 @@ public class Missile extends GameObject {
     
     public void move() {
         time += 1;
+//        TODO: co tady znamena ta petka? = gravity
         Coordinates coordinates = movementStrategy.move(5, this);
         x = coordinates.getX();
         y = coordinates.getY();

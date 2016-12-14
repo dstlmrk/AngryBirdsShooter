@@ -17,7 +17,8 @@ import cz.fit.dpo.mvcshooter.Config;
  */
 
 public class TripleShooting implements ShootingState {
-
+    
+    // span (range) between missiles
     private int span;
     
     public TripleShooting() {
