@@ -9,6 +9,7 @@ import java.util.Properties;
 import model.Cannon;
 import model.Missile;
 import cz.fit.dpo.mvcshooter.Config;
+import model.modes.Factory;
 
 /**
  * TODO: PREPSAT
@@ -27,16 +28,16 @@ public class TripleShooting implements ShootingState {
     }
     
     @Override
-    public ArrayList<Missile> shoot(Cannon cannon) {
+    public ArrayList<Missile> shoot(Cannon cannon, Factory factory) {
         int angle = cannon.getAngle();
         int force = cannon.getForce();
         int x = cannon.getX();
         int y = cannon.getY();
-        //  TODO: nachystat factory asi
+        
         ArrayList<Missile> missiles = new ArrayList<Missile>();
-        missiles.add(new Missile(x, y, angle - span, force));
-        missiles.add(new Missile(x, y, angle, force));
-        missiles.add(new Missile(x, y, angle + span, force));
+        missiles.add(factory.createMissile(x, y, angle - span, force));
+        missiles.add(factory.createMissile(x, y, angle, force));
+        missiles.add(factory.createMissile(x, y, angle + span, force));        
         return missiles;
     }
 }

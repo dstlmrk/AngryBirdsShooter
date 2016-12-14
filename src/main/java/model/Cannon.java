@@ -8,8 +8,8 @@ package model;
 import cz.fit.dpo.mvcshooter.Config;
 import interfaces.MovementStrategy;
 import interfaces.Visitor;
-import java.io.IOException;
 import java.util.ArrayList;
+import model.modes.Factory;
 import model.movement.*;
 import model.shooting.*;
 
@@ -52,17 +52,14 @@ public class Cannon extends GameObject {
         // prehodit strategii
     }
     
-    public ArrayList<Missile> shoot() {
-        System.out.println("chystam se vystrelit");
-        return shootingState.shoot(this);
+    public ArrayList<Missile> shoot(Factory factory) {
+        return shootingState.shoot(this, factory);
     }
 
     public void changeShootingMode() {
         if (shootingMode == 0) {
-            System.out.println("TripleShooting..");
             shootingState = new TripleShooting();
         } else {
-            System.out.println("SingleShooting");
             shootingState = new SingleShooting();
         }
         shootingMode = (shootingMode + 1) % 2;

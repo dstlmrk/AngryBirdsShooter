@@ -11,7 +11,7 @@ import interfaces.Visitor;
  *
  * @author marek
  */
-public class Enemy extends GameObject {
+public abstract class Enemy extends GameObject {
     
     private int type;
     
@@ -30,4 +30,6 @@ public class Enemy extends GameObject {
         return type;
     }
     
+    public abstract void move();
+    public abstract boolean isDead();
 }

@@ -7,12 +7,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 import interfaces.Observer;
 import cz.fit.dpo.mvcshooter.Config;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+import java.util.Iterator;
+import model.modes.Factory;
+import model.modes.RealFactory;
+import model.modes.SimpleFactory;
 
 /**
  *
@@ -20,6 +18,7 @@ import cz.fit.dpo.mvcshooter.Config;
  */
 public class Model implements Observable {
     
+    private Factory factory;
     private Cannon cannon;
     private List<Missile> missiles;
     private List<Enemy> enemies;
@@ -29,6 +28,7 @@ public class Model implements Observable {
     
     public Model() {
         config = Config.getInstance();
+        factory = getFactory();
         cannon = new Cannon(
                 config.getIntProperty("canonn.x_default"),
                 config.getIntProperty("cannon.y_default")
@@ -37,6 +37,14 @@ public class Model implements Observable {
         enemies = new ArrayList<Enemy>();
         observers = new ArrayList<Observer>();
         initTimer();
+    }
+    
+    private Factory getFactory() {
+        if (config.getProperty("game.mode").equals("simple")) {
+            return new SimpleFactory();
+        } else {
+            return new RealFactory();
+        }
     }
     
     public List<GameObject> getGameObjects() {
@@ -93,7 +101,7 @@ public class Model implements Observable {
     
     public void shootMissile() {
         // TODO: posilat dat factory        
-        ArrayList<Missile> newMissiles = cannon.shoot();
+        ArrayList<Missile> newMissiles = cannon.shoot(factory);
 	missiles.addAll(newMissiles);
 	notifyObservers();
     }
@@ -123,9 +131,26 @@ public class Model implements Observable {
 
     private void moveObjects() {
         //TODO: projet vsechny game objects a zavolat move()
-        for (Missile missile : missiles) {
+        for (Iterator<Missile> iter = missiles.listIterator(); iter.hasNext();) {
+            Missile missile = iter.next();
             missile.move();
+            if (missile.isOut()) {
+                iter.remove();
+            }
         }
+//        for (Missile missile : missiles) {
+//            missile.move();
+//        }
+        for (Iterator<Enemy> iter = enemies.listIterator(); iter.hasNext();) {
+            Enemy enemy = iter.next();
+            enemy.move();
+            if (enemy.isDead()) {
+                iter.remove();
+            }
+        }        
+//        for (Enemy enemy : enemies) {
+//            enemy.move();
+//        }
         notifyObservers();
     }
     
@@ -136,9 +161,9 @@ public class Model implements Observable {
 //      TODO: prepsat, prvni stovka je tam proto, aby nedoslo ke generovani u praku
         int randomX = (int) (Math.random() * (config.getIntProperty("canvas.width") - 100)) + 100;
 	int randomY = (int) (Math.random() * config.getIntProperty("canvas.height"));
-        // Vytvareni nepritele na zaklade vzoru AbstractFactory
-//        Enemy enemy = factory.createEnemy(randomX, randomY);
-        Enemy enemy = new Enemy(randomX, randomY);
+        
+        // AbstractFactory
+        Enemy enemy = factory.createEnemy(randomX, randomY);
         enemies.add(enemy);
         notifyObservers();
     }
@@ -163,6 +188,10 @@ public class Model implements Observable {
     public void changeShootingMode() {
         // zmeni vnitrni stav cannonu
         cannon.changeShootingMode();
+    }
+
+    private Exception Exception(String string) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

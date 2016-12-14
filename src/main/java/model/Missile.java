@@ -5,13 +5,9 @@
  */
 package model;
 
+import cz.fit.dpo.mvcshooter.Config;
 import interfaces.MovementStrategy;
 import interfaces.Visitor;
-import java.io.FileInputStream;
-import java.io.IOException;
-import model.movement.Simple;
-
-
 
 /**
  *
@@ -21,15 +17,19 @@ public class Missile extends GameObject {
     
     private MovementStrategy movementStrategy;
     private int initX, initY, angle, force, time = 1;
+    Config config;
     
     public Missile(int x, int y, int angle, int force) {
         super(x, y);
+        config = Config.getInstance();
         this.initX = x;
         this.initY = y;
         this.angle = angle;
 	this.force = force;
-        movementStrategy = new Simple();
-//        movementStrategy = new Realistic();
+    }
+    
+    public void setMovementStrategy(MovementStrategy movementStrategy) {
+        this.movementStrategy = movementStrategy;
     }
     
     public int getInitX() {
@@ -65,8 +65,14 @@ public class Missile extends GameObject {
         visitor.visit(this);
     }
 
-    private MovementStrategy Simple() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    boolean isOut() {
+        int maxWidth = config.getIntProperty("canvas.width") + 100;
+        int maxHeight = config.getIntProperty("canvas.height") + 100;
+        int min = -100;
+        if (x < min || x > maxWidth) {
+            return true;
+        } else return y < min || y > maxHeight;
+        
     }
     
 }
