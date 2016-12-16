@@ -22,8 +22,11 @@ public class Model implements Observable {
     private Cannon cannon;
     private List<Missile> missiles;
     private List<Enemy> enemies;
+    private List<Collision> collisions;
     private Timer timer;
     private List<Observer> observers;
+    private GameStats gameStats;
+    private int gravity;
     Config config;
     
     public Model() {
@@ -35,7 +38,14 @@ public class Model implements Observable {
         );
         missiles = new ArrayList<Missile>();
         enemies = new ArrayList<Enemy>();
+        collisions = new ArrayList<Collision>();
         observers = new ArrayList<Observer>();
+        gameStats = new GameStats(
+                config.getIntProperty("info.x"),
+                config.getIntProperty("info.y"),
+                this
+        );
+        gravity = config.getIntProperty("gravity.default");
         initTimer();
     }
     
@@ -50,17 +60,17 @@ public class Model implements Observable {
     public List<GameObject> getGameObjects() {
         List<GameObject> gameObjects = new ArrayList<GameObject>();
         gameObjects.add(cannon);
-//        gameObjects.addAll(getCollisions());
+        gameObjects.addAll(collisions);
         gameObjects.addAll(missiles);
         gameObjects.addAll(enemies);
-//        gameObjects.add(getGameStats());
+        gameObjects.add(gameStats);
         return gameObjects;
     }
 
     public Cannon getCannon() {
         return cannon;
     }
-
+    
     public List<Missile> getMissiles() {
         return missiles;
     }
@@ -91,19 +101,25 @@ public class Model implements Observable {
         cannon.forceDown();
     }
 
-//    public void gravityUp() {
-//        gravity += ModelConfig.GRAVITY_STEP;
-//    }
-//
-//    public void gravityDown() {
-//        gravity -= ModelConfig.GRAVITY_STEP;
-//    }
+    public void gravityUp() {
+        gravity += config.getIntProperty("gravity.step");
+    }
+
+    public void gravityDown() {
+        gravity -= config.getIntProperty("gravity.step");
+    }
+
+    public int getGravity() {
+        return gravity;
+    }
     
     public void shootMissile() {
         // TODO: posilat dat factory        
         ArrayList<Missile> newMissiles = cannon.shoot(factory);
-	missiles.addAll(newMissiles);
-	notifyObservers();
+        synchronized(missiles) {
+            missiles.addAll(newMissiles);
+        }
+        notifyObservers();
     }
     
     private void initTimer() {
@@ -113,7 +129,7 @@ public class Model implements Observable {
             public void run() {
                 moveObjects();
             }   
-        }, 0, 10);
+        }, 0, 15);
         timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
@@ -128,29 +144,74 @@ public class Model implements Observable {
 //                }
 //        }, 0, 1000);
     }
+    
+    private synchronized void addCollisions() {
+        synchronized(enemies) {
+            for (Iterator<Enemy> iterEnemy = enemies.iterator(); iterEnemy.hasNext(); ) {
+                Enemy enemy = iterEnemy.next();
+                synchronized(missiles) {
+                    for (Iterator<Missile> iterMissile = missiles.iterator(); iterMissile.hasNext(); ) {
+                        Missile missile = iterMissile.next();
 
-    private void moveObjects() {
-        //TODO: projet vsechny game objects a zavolat move()
-        for (Iterator<Missile> iter = missiles.listIterator(); iter.hasNext();) {
-            Missile missile = iter.next();
-            missile.move();
-            if (missile.isOut()) {
-                iter.remove();
+                        if (enemy.collidesWith(missile)) {
+                            synchronized(collisions) {
+                                collisions.add(new Collision(enemy.getX(), enemy.getY()));
+                            }
+                            gameStats.increaseScore();
+                            iterEnemy.remove();
+                            iterMissile.remove();
+                        }
+                    }
+                }
             }
         }
+    }
+
+    private void moveObjects() {
+
 //        for (Missile missile : missiles) {
+//            if (missile.isOut()) {
+//                missile.setVisible(false);
+//            }
 //            missile.move();
 //        }
-        for (Iterator<Enemy> iter = enemies.listIterator(); iter.hasNext();) {
-            Enemy enemy = iter.next();
-            enemy.move();
-            if (enemy.isDead()) {
-                iter.remove();
+        
+        // missiles
+        synchronized(missiles) {
+            for (Iterator<Missile> iter = missiles.listIterator(); iter.hasNext();) {
+                Missile missile = iter.next();
+                missile.move(gravity);
+                if (missile.isOut()) {
+                    iter.remove();
+                }
             }
-        }        
-//        for (Enemy enemy : enemies) {
-//            enemy.move();
-//        }
+        }
+        
+        // enemies
+        synchronized(enemies) {
+            for (Iterator<Enemy> iter = enemies.listIterator(); iter.hasNext();) {
+                Enemy enemy = iter.next();
+                enemy.move();
+                if (enemy.isDead()) {
+                    iter.remove();
+                }
+            }
+        }
+        
+        // collisions
+        synchronized(collisions) {
+            for (Iterator<Collision> iter = collisions.listIterator(); iter.hasNext();) {
+                Collision collision = iter.next();
+                collision.move();
+                if (collision.isDead()) {
+                    iter.remove();
+                }
+            }
+        }
+        
+        // added new collisions
+        addCollisions();
+        
         notifyObservers();
     }
     
@@ -164,7 +225,9 @@ public class Model implements Observable {
         
         // AbstractFactory
         Enemy enemy = factory.createEnemy(randomX, randomY);
-        enemies.add(enemy);
+        synchronized(enemies) {
+            enemies.add(enemy);
+        }
         notifyObservers();
     }
      
@@ -188,10 +251,6 @@ public class Model implements Observable {
     public void changeShootingMode() {
         // zmeni vnitrni stav cannonu
         cannon.changeShootingMode();
-    }
-
-    private Exception Exception(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

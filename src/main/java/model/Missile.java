@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
-import cz.fit.dpo.mvcshooter.Config;
 import interfaces.MovementStrategy;
 import interfaces.Visitor;
 
@@ -17,11 +11,9 @@ public class Missile extends GameObject {
     
     private MovementStrategy movementStrategy;
     private int initX, initY, angle, force, time = 1;
-    Config config;
     
     public Missile(int x, int y, int angle, int force) {
         super(x, y);
-        config = Config.getInstance();
         this.initX = x;
         this.initY = y;
         this.angle = angle;
@@ -52,10 +44,9 @@ public class Missile extends GameObject {
         return time;
     }
     
-    public void move() {
-        time += 1;
-//        TODO: co tady znamena ta petka? = gravity
-        Coordinates coordinates = movementStrategy.move(5, this);
+    public void move(int gravity) {            
+        time++;
+        Coordinates coordinates = movementStrategy.move(gravity, this);
         x = coordinates.getX();
         y = coordinates.getY();
     }
@@ -64,7 +55,7 @@ public class Missile extends GameObject {
     public void accept(Visitor visitor) {
         visitor.visit(this);
     }
-
+   
     boolean isOut() {
         int maxWidth = config.getIntProperty("canvas.width") + 100;
         int maxHeight = config.getIntProperty("canvas.height") + 100;

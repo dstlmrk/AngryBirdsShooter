@@ -15,6 +15,8 @@ public class Simple implements MovementStrategy {
 
     @Override
     public Coordinates move(int gravity, Missile missile) {
+        // aby teleso letelo rovne        
+        gravity = 0;
         // x = x0 + (v0 * t * cos(alpha))     
 	int x = (int)(missile.getInitX() + (missile.getForce() * missile.getTime() / 10 * Math.cos(Math.toRadians(missile.getAngle()))));
 	// y = y0 + (v0 * t * sin(alpha)) - (1/2 * g * t^2)

@@ -1,24 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import interfaces.Visitor;
 
 /**
- *
- * @author marek
+ * Nepřítel.
  */
 public abstract class Enemy extends GameObject {
     
+    protected int livingTime;
     private int type;
     
     public Enemy(int x, int y) {
         super(x, y);
         // random mezi 0 a 1        
         this.type = (int)(Math.random()*2);
+        livingTime = config.getIntProperty("enemies.living_time");
     }
 
     @Override

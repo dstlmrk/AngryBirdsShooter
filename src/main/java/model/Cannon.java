@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
-import cz.fit.dpo.mvcshooter.Config;
 import interfaces.MovementStrategy;
 import interfaces.Visitor;
 import java.util.ArrayList;
@@ -23,11 +17,9 @@ public class Cannon extends GameObject {
     private ShootingState shootingState;
     private int angle, force;
     private int shootingMode;
-    Config config;
 
     public Cannon(int x, int y) {
         super(x, y);
-        config = Config.getInstance();
         angle = config.getIntProperty("cannon.angle_default");
 	force = config.getIntProperty("cannon.force_default");
         shootingMode = 0;
@@ -42,14 +34,18 @@ public class Cannon extends GameObject {
     public int getForce() {
         return force;
     }
+    
+    public String getCannonShootingMode() {
+        if (shootingMode == 0) {
+            return "single";
+        } else {
+            return "triple";
+        }
+    }
 
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
-    }
-    
-    public void changeStrategy() {
-        // prehodit strategii
     }
     
     public ArrayList<Missile> shoot(Factory factory) {

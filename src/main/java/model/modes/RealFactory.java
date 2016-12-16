@@ -1,27 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model.modes;
 
 import model.Enemy;
 import model.Missile;
+import model.movement.Realistic;
 
 /**
- *
- * @author marek
+ * Vzor Abstraktní továrna - implementace, která vytváří pohyblivé
+ * nepřátele a střely s balistickou křivkou.
  */
 public class RealFactory implements Factory {
 
     @Override
     public Enemy createEnemy(int x, int y) {
-        return null;
+        return new RealEnemy(x, y);
     }
 
     @Override
     public Missile createMissile(int initX, int initY, int angle, int force) {
-        return null;
+        Missile missile = new Missile(initX, initY, angle, force);
+        missile.setMovementStrategy(new Realistic());
+        return missile;
     }
     
 }

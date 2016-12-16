@@ -11,13 +11,10 @@ public class RealEnemy extends Enemy {
 	super(x, 0);
     }
     
-    /**
-    * Primitivni implementace padajiciho pohybu
-    */
     @Override
     public void move() {
-//        time++;
-//        y = 0 + time;
+        y += 1;
+        livingTime--;
     }
 
 //    @Override
@@ -35,6 +32,6 @@ public class RealEnemy extends Enemy {
 
     @Override
     public boolean isDead() {
-        return false;
+        return livingTime <= 0;
     }
 }

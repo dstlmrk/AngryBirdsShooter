@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.fit.dpo.mvcshooter;
 
 import java.io.FileInputStream;
@@ -11,7 +6,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * singleton
+ * Singleton pattern
  */
 public class Config {
     
@@ -21,8 +16,7 @@ public class Config {
     private static Config instance = null;
 
     public Config() {
-        System.out.println("Inicializuju config");
-	try {
+        try {
             input = new FileInputStream("config.properties");
             // load a properties file
             prop.load(input);
@@ -31,9 +25,9 @@ public class Config {
 	} finally {
             if (input != null) {
                 try {
-                        input.close();
+                    input.close();
                 } catch (IOException e) {
-//                        e.printStackTrace();  
+                    // e.printStackTrace();  
                 }
             }
 	} 
@@ -52,7 +46,6 @@ public class Config {
     }
     
     public int getIntProperty(String key) {
-        System.out.println(key + ":" + getProperty(key));
         return Integer.parseInt(getProperty(key));
     }
 }

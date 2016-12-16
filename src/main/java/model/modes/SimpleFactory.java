@@ -4,18 +4,9 @@ import model.Enemy;
 import model.Missile;
 import model.movement.Simple;
 
-
-
 /**
- * Vzor AbstractFactory - implementace zakladni factory, ktera vytvari simple objekty:
- * - staticke nepratele
- * - strely s pohybem sikmeho vrhu
- *
- */
-
-/**
- *
- * @author marek
+ * Vzor Abstraktní továrna - implementace, která vytváří statické
+ * nepřátele a střely s rovným pohybem pohybu.
  */
 public class SimpleFactory implements Factory {
 
@@ -28,6 +19,6 @@ public class SimpleFactory implements Factory {
     public Missile createMissile(int initX, int initY, int angle, int force) {
         Missile missile = new Missile(initX, initY, angle, force);
         missile.setMovementStrategy(new Simple());
-        return missile;            
+        return missile;
     }
 }

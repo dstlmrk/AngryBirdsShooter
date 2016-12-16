@@ -1,26 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import cz.fit.dpo.mvcshooter.Config;
 import interfaces.Visitor;
 
 /**
- *
- * @author marek
+ * Kolize, která vzniká po zasažení nepřítele střelou.
  */
 public class Collision extends GameObject {
     
-    private int remainingTime;
-    Config config;
+    protected int livingTime;
 
     public Collision(int x, int y) {
         super(x, y);
-        config = Config.getInstance();
-        remainingTime = config.getIntProperty("enemies.collision_time");
+        livingTime = config.getIntProperty("collision.living_time");
     }
 
     @Override
@@ -28,14 +20,13 @@ public class Collision extends GameObject {
         visitor.visit(this);
     }
     
-    public void decreaseRemainingTime() {
-	this.remainingTime -= 1;
+    public void move() {
+	livingTime--;
     }
     
-    public boolean isVisible() {
-        return this.remainingTime >= 0;
+    public boolean isDead() {
+        return livingTime <= 0;
     }
-    
     
 }
 

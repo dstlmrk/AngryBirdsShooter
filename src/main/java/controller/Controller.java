@@ -41,15 +41,15 @@ public class Controller {
 				System.out.println("zmena shooting modu");
 				model.changeShootingMode();
 				break;
-//			case KeyEvent.VK_G:
-//				model.gravityUp();
-//				break;
-//			case KeyEvent.VK_H:
-//				model.gravityDown();
-//				break;
-//			case KeyEvent.VK_F1:
-//				view.showHelp();
-//				break;
+			case KeyEvent.VK_G:
+				model.gravityUp();
+				break;
+			case KeyEvent.VK_H:
+				model.gravityDown();
+				break;
+			case KeyEvent.VK_F1:
+				view.showHelp();
+				break;
 //			case KeyEvent.VK_F5:
 //				caretaker.saveState(model);
 //				break;

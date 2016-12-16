@@ -84,21 +84,21 @@ public class GraphicsDrawer implements Visitor {
 
     @Override
     public void visit(Collision collision) {
-//        graphics.drawImage(
-//            collisionImage,
-//            collision.getX(),
-//            collision.getY(),
-//            null
-//        );
+        graphics.drawImage(
+            collisionImage,
+            collision.getX(),
+            collision.getY(),
+            null
+        );
     }
 
     @Override
     public void visit(GameStats gameStats) {
-//        graphics.drawString(
-//            gameStats.toString(),
-//            gameStats.getX(),
-//            gameStats.getY()
-//        );
+        graphics.drawString(
+            gameStats.toString(),
+            gameStats.getX(),
+            gameStats.getY()
+        );
     }
     
     //    public void drawInfo(Graphics g, ModelInfo info) {
