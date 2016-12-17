@@ -3,8 +3,7 @@ package model.modes;
 import model.Enemy;
 
 /**
- * Představuje jednoduchého nepřítele, který je statický.
- * @author marek
+ * Reprezentuje statickeho nepritele.
  */
 public class SimpleEnemy extends Enemy {
     
@@ -22,17 +21,13 @@ public class SimpleEnemy extends Enemy {
         return livingTime <= 0;
     }
 
+    /* Kopirovani objektu pro navrhovy vzor Memento */
+    @Override
+    public Enemy copy() {
+        SimpleEnemy simpleEnemy = new SimpleEnemy(x, y);
+        simpleEnemy.setLivingTime(livingTime);
+        simpleEnemy.setType(type);
+        return simpleEnemy;
+    }
+
 }
-
-
-//
-//	@Override
-//	public Enemy copy() {
-//		SimpleEnemy se = new SimpleEnemy(x, y);
-//		se.setTime(time);
-//		se.setType(type);
-//		se.setRemainingTime(remainingTime);
-//		return se;
-//	}
-//
-//}

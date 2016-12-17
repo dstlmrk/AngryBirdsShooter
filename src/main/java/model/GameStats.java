@@ -16,7 +16,6 @@ public class GameStats extends GameObject {
         score = 0;
     }
     
-    
     public void increaseScore() {
         score++;
     }
@@ -24,6 +23,17 @@ public class GameStats extends GameObject {
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+    
+    /* Kopirovani objektu pro navrhovy vzor Memento */
+    public GameStats copy() {
+        GameStats gameStats = new GameStats(x, y, model);
+        gameStats.setScore(score);
+        return gameStats;
     }
     
     @Override
@@ -46,40 +56,3 @@ public class GameStats extends GameObject {
     }
     
 }
-
-
-//public class GameStats extends GameObject {
-//
-////	private Model model;
-//	private int score = 0;
-//        Config config;
-//
-//	public GameStats(Model model) {
-////            config = Config.getInstance();
-//            super(
-//                10, 10
-////                config.getIntProperty("info.x"),
-////                config.getIntProperty("info.y")
-//            );
-////		this.model = model;
-//	}
-//
-//	public int getScore() {
-//		return score;
-//	}
-//
-//	public void addScore() {
-//		score += 1;
-////                        ModelConfig.HIT_POINTS;
-//	}
-//
-//	public void minusScore() {
-//		score -= 1;
-//	}
-//
-////	public GameStats copy() {
-////		GameStats gameStats = new GameStats(model);
-////		gameStats.score = this.getScore();
-////		return gameStats;
-////	}
-//

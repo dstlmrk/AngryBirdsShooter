@@ -7,15 +7,13 @@ import model.modes.Factory;
 import model.movement.*;
 import model.shooting.*;
 
-/**
- *
- * @author marek
- */
+
 public class Cannon extends GameObject {
 
     private MovementStrategy movementStrategy;
     private ShootingState shootingState;
     private int angle, force;
+    // pomocna promenna pro zjistovani stavu
     private int shootingMode;
 
     public Cannon(int x, int y) {
@@ -97,4 +95,34 @@ public class Cannon extends GameObject {
         }
     }
 
+    public void setMovementStrategy(MovementStrategy movementStrategy) {
+        this.movementStrategy = movementStrategy;
+    }
+
+    public void setShootingState(ShootingState shootingState) {
+        this.shootingState = shootingState;
+    }
+
+    public void setAngle(int angle) {
+        this.angle = angle;
+    }
+
+    public void setForce(int force) {
+        this.force = force;
+    }
+
+    public void setShootingMode(int shootingMode) {
+        this.shootingMode = shootingMode;
+    }
+    
+    /* Kopirovani objektu pro navrhovy vzor Memento */
+    public Cannon copy() {
+        Cannon cannon = new Cannon(x, y);
+        cannon.setAngle(angle);
+        cannon.setForce(force);
+        cannon.setMovementStrategy(movementStrategy);
+        cannon.setShootingMode(shootingMode);
+        cannon.setShootingState(shootingState);
+        return cannon;
+    }
 }

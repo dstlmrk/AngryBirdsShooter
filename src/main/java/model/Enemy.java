@@ -8,7 +8,7 @@ import interfaces.Visitor;
 public abstract class Enemy extends GameObject {
     
     protected int livingTime;
-    private int type;
+    protected int type;
     
     public Enemy(int x, int y) {
         super(x, y);
@@ -16,6 +16,10 @@ public abstract class Enemy extends GameObject {
         this.type = (int)(Math.random()*2);
         livingTime = config.getIntProperty("enemies.living_time");
     }
+    
+    public abstract void move();
+    public abstract boolean isDead();
+    public abstract Enemy copy();
 
     @Override
     public void accept(Visitor visitor) {
@@ -26,6 +30,11 @@ public abstract class Enemy extends GameObject {
         return type;
     }
     
-    public abstract void move();
-    public abstract boolean isDead();
+    public void setType(int type) {
+        this.type = type;
+    }
+    
+    public void setLivingTime(int livingTime) {
+        this.livingTime = livingTime;
+    }
 }

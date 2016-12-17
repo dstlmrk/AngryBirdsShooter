@@ -3,7 +3,7 @@ package model.modes;
 import model.Enemy;
 
 /**
- * Reprezentuje nepritele (pohybujiciho se).
+ * Reprezentuje pohybliveho nepritele.
  */
 public class RealEnemy extends Enemy {
     
@@ -17,21 +17,18 @@ public class RealEnemy extends Enemy {
         livingTime--;
     }
 
-//    @Override
-//    public boolean isVisible() {
-//           return y <= ModelConfig.PLAYGROUND_HEIGHT && x <= ModelConfig.PLAYGROUND_WIDTH;
-//    }
-
-//    @Override
-//    public Enemy copy() {
-//           RealEnemy re = new RealEnemy(x, y);
-//           re.setTime(time);
-//           re.setType(type);
-//           return re;
-//    }
-
     @Override
     public boolean isDead() {
         return livingTime <= 0;
     }
+    
+    /* Kopirovani objektu pro navrhovy vzor Memento */
+    @Override
+    public Enemy copy() {
+        RealEnemy realEnemy = new RealEnemy(x, y);
+        realEnemy.setLivingTime(livingTime);
+        realEnemy.setType(type);
+        return realEnemy;
+    }
+
 }

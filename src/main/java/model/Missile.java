@@ -10,7 +10,8 @@ import interfaces.Visitor;
 public class Missile extends GameObject {
     
     private MovementStrategy movementStrategy;
-    private int initX, initY, angle, force, time = 1;
+    private final int initX, initY, angle, force;
+    private int time = 1;
     
     public Missile(int x, int y, int angle, int force) {
         super(x, y);
@@ -44,6 +45,10 @@ public class Missile extends GameObject {
         return time;
     }
     
+    public void setTime(int time) {
+        this.time = time;
+    }
+    
     public void move(int gravity) {            
         time++;
         Coordinates coordinates = movementStrategy.move(gravity, this);
@@ -64,6 +69,14 @@ public class Missile extends GameObject {
             return true;
         } else return y < min || y > maxHeight;
         
+    }
+    
+    /* Kopirovani objektu pro navrhovy vzor Memento */
+    public Missile copy() {
+        Missile missile = new Missile(initX, initY, angle, force);
+        missile.setTime(time);
+        missile.setMovementStrategy(movementStrategy);
+        return missile;
     }
     
 }

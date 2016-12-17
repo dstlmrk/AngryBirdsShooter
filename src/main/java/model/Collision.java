@@ -27,11 +27,16 @@ public class Collision extends GameObject {
     public boolean isDead() {
         return livingTime <= 0;
     }
-    
-}
 
-//	public Collision copy() {
-//		Collision collision = new Collision(x, y);
-//		collision.setRemainingTime(remainingTime);
-//		return collision;
-//	}
+    public void setLivingTime(int livingTime) {
+        this.livingTime = livingTime;
+    }
+    
+    /* Kopirovani objektu pro navrhovy vzor Memento */
+    public Collision copy() {
+        Collision collision = new Collision(x, y);
+        collision.setLivingTime(livingTime);
+        return collision;
+    }
+   
+}

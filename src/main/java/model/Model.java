@@ -8,6 +8,7 @@ import java.util.TimerTask;
 import interfaces.Observer;
 import cz.fit.dpo.mvcshooter.Config;
 import java.util.Iterator;
+import model.memento.Memento;
 import model.modes.Factory;
 import model.modes.RealFactory;
 import model.modes.SimpleFactory;
@@ -73,6 +74,18 @@ public class Model implements Observable {
     
     public List<Missile> getMissiles() {
         return missiles;
+    }
+    
+    public List<Enemy> getEnemies() {
+        return enemies;
+    }
+    
+    public List<Collision> getCollisions() {
+        return collisions;
+    }
+
+    public GameStats getGameStats() {
+        return gameStats;
     }
    
     public void moveCannonUp() {
@@ -147,19 +160,20 @@ public class Model implements Observable {
     
     private synchronized void addCollisions() {
         synchronized(enemies) {
-            for (Iterator<Enemy> iterEnemy = enemies.iterator(); iterEnemy.hasNext(); ) {
-                Enemy enemy = iterEnemy.next();
+            for (Iterator<Enemy> ie = enemies.iterator(); ie.hasNext();) {
+                Enemy enemy = ie.next();
                 synchronized(missiles) {
-                    for (Iterator<Missile> iterMissile = missiles.iterator(); iterMissile.hasNext(); ) {
-                        Missile missile = iterMissile.next();
-
+                    for (Iterator<Missile> im = missiles.iterator(); im.hasNext();) {
+                        Missile missile = im.next();
                         if (enemy.collidesWith(missile)) {
                             synchronized(collisions) {
-                                collisions.add(new Collision(enemy.getX(), enemy.getY()));
+                                collisions.add(
+                                        new Collision(enemy.getX(), enemy.getY())
+                                );
                             }
                             gameStats.increaseScore();
-                            iterEnemy.remove();
-                            iterMissile.remove();
+                            ie.remove();
+                            im.remove();
                         }
                     }
                 }
@@ -168,47 +182,36 @@ public class Model implements Observable {
     }
 
     private void moveObjects() {
-
-//        for (Missile missile : missiles) {
-//            if (missile.isOut()) {
-//                missile.setVisible(false);
-//            }
-//            missile.move();
-//        }
-        
         // missiles
         synchronized(missiles) {
-            for (Iterator<Missile> iter = missiles.listIterator(); iter.hasNext();) {
-                Missile missile = iter.next();
+            for (Iterator<Missile> i = missiles.listIterator(); i.hasNext();) {
+                Missile missile = i.next();
                 missile.move(gravity);
                 if (missile.isOut()) {
-                    iter.remove();
+                    i.remove();
                 }
             }
         }
-        
         // enemies
         synchronized(enemies) {
-            for (Iterator<Enemy> iter = enemies.listIterator(); iter.hasNext();) {
-                Enemy enemy = iter.next();
+            for (Iterator<Enemy> i = enemies.listIterator(); i.hasNext();) {
+                Enemy enemy = i.next();
                 enemy.move();
                 if (enemy.isDead()) {
-                    iter.remove();
+                    i.remove();
                 }
             }
         }
-        
         // collisions
         synchronized(collisions) {
-            for (Iterator<Collision> iter = collisions.listIterator(); iter.hasNext();) {
-                Collision collision = iter.next();
+            for (Iterator<Collision> i = collisions.listIterator(); i.hasNext();) {
+                Collision collision = i.next();
                 collision.move();
                 if (collision.isDead()) {
-                    iter.remove();
+                    i.remove();
                 }
             }
         }
-        
         // added new collisions
         addCollisions();
         
@@ -251,6 +254,18 @@ public class Model implements Observable {
     public void changeShootingMode() {
         // zmeni vnitrni stav cannonu
         cannon.changeShootingMode();
+    }
+    
+    /* Uklada stav modelu. */
+    public Memento saveStateToMemento() {
+	// debug
+        System.out.println("Ukladam hru. (" + this + ")");
+        return new Memento(this);
+    }
+    
+    /* Obnovuje stav modelu. */
+    public void restoreStateFromMemento(Memento memento) {
+        
     }
     
 }
