@@ -6,13 +6,13 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * Singleton pattern
+ * Trida (singleton) reprezentujici config file.
  */
 public class Config {
     
     private Properties prop = new Properties();
     private InputStream input = null;
-    // singleton    
+    // singleton
     private static Config instance = null;
 
     public Config() {
@@ -21,7 +21,7 @@ public class Config {
             // load a properties file
             prop.load(input);
         } catch (IOException ex) {
-            ex.printStackTrace();
+            // ex.printStackTrace();
 	} finally {
             if (input != null) {
                 try {
@@ -33,7 +33,7 @@ public class Config {
 	} 
     }
     
-    // vraci jedinacka    
+    /** Vraci jedinacka (singleton). */    
     public static Config getInstance() {
         if (instance == null) {
             instance = new Config();
@@ -41,10 +41,12 @@ public class Config {
         return instance;
      }
     
+    /** Vraci string z configu. */
     public String getProperty(String key) {
         return prop.getProperty(key).trim();
     }
     
+    /** Vraci int z configu. */
     public int getIntProperty(String key) {
         return Integer.parseInt(getProperty(key));
     }

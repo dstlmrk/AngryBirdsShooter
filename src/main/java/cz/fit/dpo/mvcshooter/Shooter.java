@@ -1,10 +1,10 @@
 package cz.fit.dpo.mvcshooter;
 
-import view.MainWindow;
+import cz.fit.dpo.mvcshooter.view.MainWindow;
 import javax.swing.SwingUtilities;
 
 /**
- *
+ * Shooter app.
  * @author Marek Dostal
  */
 public class Shooter {
