@@ -1,5 +1,7 @@
 # Semestrální práce
 
+![GitHub Logo](/images/shooter.png)
+
 * MVC hra
 * výběr z vlastností:
     * změna síly střely (force),
