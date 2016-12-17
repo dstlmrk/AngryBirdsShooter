@@ -1,6 +1,6 @@
 # Semestrální práce
 
-![GitHub Logo](/images/shooter.png)
+![GitHub Logo](/images/help.png)
 
 * MVC hra
 * výběr z vlastností:
